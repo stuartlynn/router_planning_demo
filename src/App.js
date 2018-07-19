@@ -4,14 +4,16 @@ import './App.css';
 import ControlsContainer from './components/ControlsContainer';
 import MapContainer from './components/MapContainer';
 import ResultsContainer from './components/ResultsContainer';
+import polyline from '@mapbox/polyline';
 
 class App extends Component {
   state = {
     origins: [],
     destinations: [],
+    lines: [],
     processing: false,
-    result:{},
-    addType: 'origin ',
+    result: {},
+    addType: 'origin',
     apiKey:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjUwOTcxMGY2YmUxOTFiZjYwN2FkNWEiLCJpYXQiOjE1MzIwMDgyMDh9.lMGLJuMTzN2conBHEUWABmKUKm0bbzG5uc_KqAKOcvk',
   };
@@ -65,6 +67,9 @@ class App extends Component {
     const data = {
       visits: this.destinationsToOrders(),
       fleet: this.originsToFleet(),
+      options: {
+        polylines: true,
+      },
     };
     console.log('payload is ', data);
 
@@ -77,7 +82,17 @@ class App extends Component {
       body: JSON.stringify(data),
     })
       .then(r => r.json())
-      .then(result => this.setState({result: result}));
+      .then(result =>
+        this.setState({
+          result: result,
+          lines: Object.values(result.polylines).map(k => {
+            const line = polyline.decode(k[0]).map((a) => [a[0]/10.0, a[1]/10.0])
+
+            console.log(' line is ' , k[0], line)
+            return line
+          }),
+        }),
+      );
   }
   addMarker(location) {
     console.log('adding marker');
@@ -97,6 +112,7 @@ class App extends Component {
           onAddMarker={this.addMarker.bind(this)}
           origins={this.state.origins}
           destinations={this.state.destinations}
+          lines={this.state.lines}
         />
         <ControlsContainer
           onAddTypeChange={this.setAddType.bind(this)}

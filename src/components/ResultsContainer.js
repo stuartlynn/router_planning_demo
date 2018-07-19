@@ -1,18 +1,18 @@
-import React, { Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ReactJson from 'react-json-view'
-import styled from 'styled-components'
+import ReactJson from 'react-json-view';
+import styled from 'styled-components';
 
-const ResultsOuter= styled.div`
+const ResultsOuter = styled.div`
   position: absolute;
-  right:20px;
-  top:200px;
+  right: 20px;
+  top: 200px;
   z-index: 100;
-  width:300px;
-  height:400px;
+  width: 500px;
+  height: 400px;
   overflow-y: scroll;
-  background-color : white;
-`
+  background-color: white;
+`;
 
 class ResultsContainer extends Component {
   static propTypes = {

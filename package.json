@@ -2,8 +2,11 @@
   "name": "router_planning_demo",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://stuartlynn.github.io/router_planning_demo",
   "dependencies": {
     "@carto/airship": "^1.0.0-alpha.25",
+    "@mapbox/polyline": "^1.0.0",
+    "google-polyline": "^1.0.0",
     "leaflet": "^1.3.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -16,6 +19,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0"
   }
 }

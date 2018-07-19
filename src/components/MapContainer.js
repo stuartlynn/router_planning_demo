@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import 'leaflet/dist/leaflet.css';
-import {Map, TileLayer, Marker, Popup} from 'react-leaflet';
+import {Map, TileLayer, Marker, Popup, Polyline} from 'react-leaflet';
 import {Icon} from 'leaflet';
 
 const MapOuter = styled.div`
@@ -77,6 +77,16 @@ class MapContainer extends Component {
               key={`origin_${index}`}
               style={{zIndex: 21}}
               position={[origin.lat, origin.lng]}
+            />
+          ))}
+
+          {this.props.lines.map((line, index) => (
+            <Polyline
+              key={`poly_line_${index}`}
+              positions={line}
+              stroke
+              color='red'
+              weight={2}
             />
           ))}
         </Map>
