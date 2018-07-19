@@ -6,10 +6,22 @@ import MapContainer from './components/MapContainer';
 import ResultsContainer from './components/ResultsContainer';
 import polyline from '@mapbox/polyline';
 
+const origin_no =5
+const dest_no = 100
+const bounds = [-0.351468,51.38494,0.148271,51.672343]
+const randomLng = ()=>{
+  return Math.random()*(bounds[2]-bounds[0]) + bounds[0]
+}
+const randomLat = ()=>{
+  return Math.random()*(bounds[3]-bounds[1]) + bounds[1]
+}
+const randomPoint = ()=>{
+return {lat:randomLat(), lng:randomLng()}
+}
 class App extends Component {
   state = {
-    origins: [],
-    destinations: [],
+    origins: [...Array(origin_no).keys()].map((a) => randomPoint()),
+    destinations: [...Array(dest_no).keys()].map((a) => randomPoint()),
     lines: [],
     processing: false,
     result: {},
@@ -80,9 +92,9 @@ class App extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    })
-      .then(r => r.json())
-      .then(result =>
+    }).then(r => r.json())
+      .then(result =>{
+        console.log(result)
         this.setState({
           result: result,
           lines: Object.values(result.polylines).map(k => {
@@ -91,8 +103,8 @@ class App extends Component {
             console.log(' line is ' , k[0], line)
             return line
           }),
-        }),
-      );
+        })
+      });
   }
   addMarker(location) {
     console.log('adding marker');
